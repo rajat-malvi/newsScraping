@@ -38,7 +38,7 @@ github = oauth.register(
 # backend (psycopg2)
 def connect_to_db():
     conn=psycopg2.connect(
-        host='localhost',  database='dhp2024', user='postgres', password='rajat')
+        host='dpg-cnkv8s821fec73d6aejg-a',  database='dhp2024_4yqq', user='rajat_1234', password='xhsP7q41ZCnxoLioVprbOeKx0SfAiCMQ')
     return conn
 
 conn=connect_to_db()
