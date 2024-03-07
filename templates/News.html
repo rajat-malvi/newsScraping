@@ -1,122 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='News.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/solid.min.js" integrity="sha512-+fI924YJzeYFv7M0R29zJvRThPinSUOAmo5rpR9v6G4eWIbva/prHdZGSPN440vuf781/sOd/Fr+5ey0pqdW9w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-    <style>
-        .bar-1{
-            background-color: {% if dictmain['istrue']==True %}green{% elif dictmain['istrue']==False %}red{% else %}#c2c2c2{% endif %};
-            color: {% if dictmain['istrue']==True %}#fff{% elif dictmain['istrue']==False %}#fff{% endif %};
-        }
-    </style>
-    
-</head>
-<body>
-    <div class="box1">
-        <h2>News Analyzer</h2>
-    </div>
-    <div class="box2">
-        <div class="logo">NEWS</div>
-        <div class="nav">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="{{ url_for('github_login') }}">Admin</a></li>
-                <li id="user_name">{{name}}</li>
-            </ul>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>News</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='News.css')}}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/solid.min.js" integrity="sha512-+fI924YJzeYFv7M0R29zJvRThPinSUOAmo5rpR9v6G4eWIbva/prHdZGSPN440vuf781/sOd/Fr+5ey0pqdW9w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+        <style>
+            .bar-1{
+                background-color: {% if dictmain['istrue']==True %}green{% elif dictmain['istrue']==False %}red{% else %}#c2c2c2{% endif %};
+                color: {% if dictmain['istrue']==True %}#fff{% elif dictmain['istrue']==False %}#fff{% endif %};
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="box1">
+            <h2>News Analyzer</h2>
         </div>
-    </div>
-    <div class="box3">
-        <div class="container-l">
-            <div class="user">
-                <form action="/" method="post">
-                    <h2>User Portal</h2>
-                    <br><br>
-                    <input type="text" placeholder="User Name" name='user'>
-                    <br><br>
-                    <select id="option" name='news'>
-                        <option value="The_Hindu">The Hindu</option>
-                        <option value="toi">The Times of India</option>
-                    </select>
-                    <br><br>
-                    <input type="text" id="link" name="link" placeholder="News link">
-                    <!-- btn -->
-                    <button class="button" id="btn">Submit</button>
-                    <!-- <p id="ispositive">{{isPositive}}</p>
-                    <p id="isnagative">{{isNegative}}</p> -->
-                </form>
-                <div class="thumbnail">
-                    <i class="fa-solid fa-thumbs-up"></i>
-                    <p id="thumb"></p> &emsp;
-                    <i class="fa-solid fa-heart"></i>
-                    <p id="heart"></p>
-                </div>
-            </div>
-            
-        </div>
-        <!-- right side box -->
-        <div class="container-r">
-            <div class="bar-1">
-                {{dictmain['heading']}}
-            </div>
-            <div class="bar-2">
-                <div class="card" id="card-1">
-                    <h2>Data Using NLTK</h2>
-                    <label for="">Sentence :</label>
-                    <input type="text" class="data" placeholder="0" disabled value={{dictmain['sentence']}} >
-                    <br><br>
-                    <label for="">Words:</label>
-                    <input type="text" class="data" placeholder="0" disabled value={{dictmain['words']}}>
-                    <br><br> 
-                    <label for="">Upos tag:</label> 
-                    <textarea class="data" id='data-3' disabled> {{dictmain['upos']}} </textarea>
-                </div>
-                <div class="card">
-                    <h2>News Related</h2><br>
-                    <label for="">About article</label>
-                    <textarea class="data" id='tags' disabled>
-                        {% for tag in dictmain['articleTag'] %}
-                            {{ tag }}
-                        {% endfor %}
-                    </textarea>
-                    <br><br>
-                    <label for="">Author name:</label><br><br>
-                    <div class="data">{{dictmain['authername']}}</div> 
-                </div>
+        <div class="box2">
+            <div class="logo">NEWS</div>
+            <div class="nav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="{{ url_for('github_login') }}">Admin</a></li>
+                    <li id="user_name">{{name}}</li>
+                </ul>
             </div>
         </div>
-    </div><br>
+        <div class="box3">
+            <div class="container-l">
+                <div class="user">
+                    <form action="/" method="post">
+                        <h2>User Portal</h2>
+                        <br><br>
+                        <input type="text" placeholder="User Name" name='user'>
+                        <br><br>
+                        <select id="option" name='news'>
+                            <option value="The_Hindu">The Hindu</option>
+                            <option value="toi">The Times of India</option>
+                        </select>
+                        <br><br>
+                        <input type="text" id="link" name="link" placeholder="News link">
+                        <!-- btn -->
+                        <button class="button" id="btn">Submit</button>
+                        <!-- <p id="ispositive">{{isPositive}}</p>
+                        <p id="isnagative">{{isNegative}}</p> -->
+                    </form>
+                    <div class="thumbnail">
+                        <i class="fa-solid fa-thumbs-up"></i>
+                        <p id="thumb"></p> &emsp;
+                        <i class="fa-solid fa-heart"></i>
+                        <p id="heart"></p>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- right side box -->
+            <div class="container-r">
+                <div class="bar-1">
+                    {{dictmain['heading']}}
+                </div>
+                <div class="bar-2">
+                    <div class="card" id="card-1">
+                        <h2>Data Using NLTK</h2>
+                        <label for="">Sentence :</label>
+                        <input type="text" class="data" placeholder="0" disabled value={{dictmain['sentence']}} >
+                        <br><br>
+                        <label for="">Words:</label>
+                        <input type="text" class="data" placeholder="0" disabled value={{dictmain['words']}}>
+                        <br><br> 
+                        <label for="">Upos tag:</label> 
+                        <textarea class="data" id='data-3' disabled> {{dictmain['upos']}} </textarea>
+                    </div>
+                    <div class="card">
+                        <h2>News Related</h2><br>
+                        <label for="">About article</label>
+                        <textarea class="data" id='tags' disabled>
+                            {% for tag in dictmain['articleTag'] %}
+                                {{ tag }}
+                            {% endfor %}
+                        </textarea>
+                        <br><br>
+                        <label for="">Author name:</label><br><br>
+                        <div class="data">{{dictmain['authername']}}</div> 
+                    </div>
+                </div>
+            </div>
+        </div><br>
 
-    <div class="peragraph">
-            {{pera}}
-    </div>
+        <div class="peragraph">
+                {{pera}}
+        </div>
 
-    <footer>
-        <div class="fotter">©️ 2024 Copyright: News Analyzers</div>
-    </footer>
+        <footer>
+            <div class="fotter">©️ 2024 Copyright: News Analyzers</div>
+        </footer>
 
-    <!-- js code -->
-    <script>
-        // like and hert
-        let fathumb=document.querySelector('.fa-thumbs-up');
-        let faheart=document.querySelector('.fa-heart')
-        let thumb =document.querySelector('#thumb')
-        let heart =document.querySelector('#heart')
-        countt=7
-        counth=5
-        thumb.innerText=countt;
-        heart.innerText=counth;
-        fathumb.addEventListener('click',(e)=>{
-            countt+=1
+        <!-- js code -->
+        <script>
+            // like and hert
+            let fathumb=document.querySelector('.fa-thumbs-up');
+            let faheart=document.querySelector('.fa-heart')
+            let thumb =document.querySelector('#thumb')
+            let heart =document.querySelector('#heart')
+            countt=7
+            counth=5
             thumb.innerText=countt;
-        })
-        faheart.addEventListener('click',(e)=>{
-            counth+=1
             heart.innerText=counth;
-        })
-    </script>
-</body>
-</html>
+            fathumb.addEventListener('click',(e)=>{
+                countt+=1
+                thumb.innerText=countt;
+            })
+            faheart.addEventListener('click',(e)=>{
+                counth+=1
+                heart.innerText=counth;
+            })
+        </script>
+    </body>
+    </html>
