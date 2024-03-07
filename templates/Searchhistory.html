@@ -3,36 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Search History</title>
     <link rel="stylesheet" href="{{url_for('static', filename='SearchHistory.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='News.css')}}">
 </head>
 <body>
     <div class="box2">
         <div class="logo">NEWS</div>
-        <div class="nav">
+        <div id="logout">
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Admin</a></li>
+                <li ><a href="{{ url_for('github_logout') }}">Logout</a></li>
             </ul>
         </div>
     </div>
     <div class="main">
         <h1>User History</h1>
-        <div class="hbox">
-            {% for data in  lst %}
-                <div class="hcard card">
-                    <ul>
-                        <li>{{ data[1] }}</li>
-                        <li>{{ data[2] }}</li>
-                        <li>{{ data[3] }}</li>
-                        <li>{{ data[4] }}</li>
-                        <li>{{ data[5] }}</li>
-                        <li>{{ data[6] }}</li>
-                    </ul>
-                </div>
-            {% endfor %}
+        <div class="table">    
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>No Words</th>
+                    <th>No Sentences</th>
+                    <th>No POS tag</th>
+                    <th>Key Words</th>
+                    <th>Peragraph</th>
+                    <th>Author</th>
+                    <th>Link</th>
+                </thead>
+                <tbody>
+                    {% for row in lst %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td>{{ row[4] }}</td>
+                            <td class='pera'>
+                                <textarea class="table-text" disabled>
+                                    {{ row[5] }}
+                                </textarea>
+                            </td>
+                            <td> {{ row[6] }} </td>
+                            <td>
+                                <button>
+                                    <a href="{{ row[7] }}"> link </a>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+        
     </div>
 
 </body>
