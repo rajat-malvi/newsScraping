@@ -11,16 +11,17 @@ import re
 from bs4 import BeautifulSoup
 from authlib.integrations.flask_client import OAuth
 
-
 app=Flask(__name__,static_folder='data')
 
 # oAuth acount
 oauth = OAuth(app)
+
 # oautherized id
-app.config['SECRET_KEY'] = "This_secret"
+app.config['SECRET_KEY'] = "THIS SHOULD BE SECRET"
 app.config['GITHUB_CLIENT_ID'] = "992ca9ab81fae0231b83"
 app.config['GITHUB_CLIENT_SECRET'] = "a0c7e13b2dfdb91e32c700563eed8420f6594e2b"
 github_admin_usernames = [ "atmabodha","rajat-malvi"]
+
 # registration id 
 github = oauth.register(
     name='github',
@@ -34,57 +35,29 @@ github = oauth.register(
     client_kwargs={'scope': 'user:email'},
 )
 
+
 # backend (psycopg2)
-# def connect_to_db():
-#     conn=psycopg2.connect(
-#         host='dpg-cnlhmc0l6cac73ef0vmg-a',  database='dhp2024_44yk', user='dhp2024_44yk', password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC')
-#     return conn
-
 def connect_to_db():
-    try:
-        conn=psycopg2.connect(
-            host='dpg-cnlhmc0l6cac73ef0vmg-a',
-            database='dhp2024_44yk',
-            user='dhp2024_44yk',
-            password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC'
+    conn=psycopg2.connect(
+        host='dpg-cnlhmc0l6cac73ef0vmg-a',  database='dhp2024_44yk', user='dhp2024_44yk_user', password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC')
+    return conn
+
+conn=connect_to_db()
+cursor = conn.cursor()
+
+cursor.execute("""
+        create table if not exists news(
+            name varchar(1000),
+            nowords varchar(100),
+            nosentence varchar(100),
+            nopostag varchar(1000),
+            articlekey varchar(10000),
+            pera varchar(10000000),
+            author varchar(500),
+            link varchar(10000) not null
         )
-        return conn
-    except psycopg2.Error as e:
-        print(f"Error connecting to database: {e}")
-        raise
-
-
-# db_params = {
-#     'dbname':'dhp2024_44yk',
-#     'user':'dhp2024_44yk',
-#     'password':'hYblUsnTd53xOGdkVu0d70jAP5LR1SBC',
-#     'host':'dpg-cnlhmc0l6cac73ef0vmg-a',
-#     'port':5432
-# }
-
-
-def create_table():
-    # conn = psycopg2.connect(**db_params)
-    conn=connect_to_db()
-    cur = conn.cursor()
-    # cursor = conn.cursor()
-    cur.execute("""
-            create table if not exists newsdb(
-                name varchar(1000),
-                nowords varchar(100),
-                nosentence varchar(100),
-                nopostag varchar(1000),
-                articlekey varchar(10000),
-                pera varchar(10000000),
-                author varchar(500),
-                link varchar(10000) not null
-            )
-        """)
-    conn.commit()
-    cur.close()
-    conn.close()
-
-create_table()
+    """)
+conn.commit()
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -144,7 +117,7 @@ def word_func(s):
     count=0
     for i in word_list:
         if i not in lst:
-            count+=1   
+            count+=1
     return count
 
 # def s_word(s):
@@ -216,10 +189,8 @@ def textCleaner(s):
 @app.route("/",methods=('GET','POST'))
 def portal():
     # connection
-    # conn=connect_to_db()
-    # cur=conn.cursor()
-    conn = connect_to_db()
-    cur = conn.cursor()
+    conn=connect_to_db()
+    cur=conn.cursor()
     try:
         sentence='0'
         words='0'
@@ -245,7 +216,7 @@ def portal():
                 heading=new_dict['headline']
                 authename=new_dict['authorName']
                 # store in data base
-                cur.execute('insert into newsdb(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['articleTags'],pera,new_dict['authorName'],link))
+                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['articleTags'],pera,new_dict['authorName'],link))
                 conn.commit()
                 
             elif option=='toi':
@@ -256,7 +227,7 @@ def portal():
                 articleTag=articleTags(new_dict['keywords'])
                 authename=new_dict['author']['name']
                 # store in data base
-                cur.execute('insert into newsdb(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['keywords'],pera,authename,link))
+                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['keywords'],pera,authename,link))
                 conn.commit()
 
             # four tag
@@ -268,13 +239,11 @@ def portal():
             dictmain['articleTag']=articleTag
             dictmain['authername']=authename
             # backend save
-            # conn.close()
-            cur.close()
             conn.close()
-
+   
         return render_template('News.html',dictmain=dictmain,pera=pera,name=name)
-    except:
-        return render_template('News.html',dictmain=dictmain,pera=pera)
+    except Exception as e:
+        return render_template('News.html',dictmain=dictmain,name=name)
 
 
 # Github login route
@@ -294,10 +263,10 @@ def github_authorize():
         token = github.authorize_access_token()
         session['github_token'] = token
         resp = github.get('user').json()
-        # print(f"\n{resp}\n")
+        print(f"\n{resp}\n")
         logged_in_username = resp.get('login')
         if logged_in_username in github_admin_usernames:
-            cur.execute('select * from newsdb')
+            cur.execute('select * from news')
             data=cur.fetchall()
             conn.close()
             return render_template("Searchhistory.html",lst=data)
@@ -313,5 +282,4 @@ def github_logout():
     return redirect(url_for('portal'))       # here index is a function
 
 if __name__=='__main__':
-    # create_table()
     app.run(debug=True)
