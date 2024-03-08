@@ -70,6 +70,8 @@ def create_table():
     cur.close()
     conn.close()
 
+create_table()
+
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
 # bs4 code
@@ -297,5 +299,5 @@ def github_logout():
     return redirect(url_for('portal'))       # here index is a function
 
 if __name__=='__main__':
-    create_table()
+    # create_table()
     app.run(debug=True)
