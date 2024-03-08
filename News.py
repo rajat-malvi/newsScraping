@@ -34,7 +34,6 @@ github = oauth.register(
     client_kwargs={'scope': 'user:email'},
 )
 
-
 # backend (psycopg2)
 # def connect_to_db():
 #     conn=psycopg2.connect(
@@ -48,6 +47,7 @@ db_params = {
     'host':'dpg-cnkv8s821fec73d6aejg-a',
     'port':5432
 }
+
 
 def create_table():
     conn = psycopg2.connect(**db_params)
@@ -73,7 +73,6 @@ def create_table():
 create_table()
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
-
 
 # bs4 code
 def getsoup(s):
@@ -300,4 +299,5 @@ def github_logout():
     return redirect(url_for('portal'))       # here index is a function
 
 if __name__=='__main__':
+    create_table()
     app.run(debug=True)
