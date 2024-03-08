@@ -54,7 +54,7 @@ def create_table():
     cur = conn.cursor()
     # cursor = conn.cursor()
 
-    curr.execute("""
+    cur.execute("""
             create table if not exists news(
                 name varchar(1000),
                 nowords varchar(100),
