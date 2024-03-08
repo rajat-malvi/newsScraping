@@ -41,10 +41,10 @@ github = oauth.register(
 #     return conn
 
 db_params = {
-    'dbname':'dhp2024_4yqq',
-    'user':'rajat_1234',
-    'password':'xhsP7q41ZCnxoLioVprbOeKx0SfAiCMQ',
-    'host':'dpg-cnkv8s821fec73d6aejg-a',
+    'dbname':'dhp2024_qq2m',
+    'user':'dhp2024_qq2m_user',
+    'password':'egPPgJVYusSnXZJVpaoF8vPTu0Tof4tA',
+    'host':'dpg-cnlf91o21fec73c5a82g-a',
     'port':5432
 }
 
