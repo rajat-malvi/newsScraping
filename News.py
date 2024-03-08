@@ -41,23 +41,27 @@ def connect_to_db():
     conn=psycopg2.connect(
         host='dpg-cnlhmc0l6cac73ef0vmg-a',  database='dhp2024_44yk', user='dhp2024_44yk_user', password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC')
     return conn
-
-conn=connect_to_db()
-cursor = conn.cursor()
-
-cursor.execute("""
-        create table if not exists news(
-            name varchar(1000),
-            nowords varchar(100),
-            nosentence varchar(100),
-            nopostag varchar(1000),
-            articlekey varchar(10000),
-            pera varchar(10000000),
-            author varchar(500),
-            link varchar(10000) not null
-        )
-    """)
-conn.commit()
+    
+def create_table():
+    # conn = psycopg2.connect(**db_params)
+    conn=connect_to_db()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+            create table if not exists news(
+                name varchar(1000),
+                nowords varchar(100),
+                nosentence varchar(100),
+                nopostag varchar(1000),
+                articlekey varchar(10000),
+                pera varchar(10000000),
+                author varchar(500),
+                link varchar(10000) not null
+            )
+        """)
+    conn.commit()
+    
+create_table()
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -282,4 +286,5 @@ def github_logout():
     return redirect(url_for('portal'))       # here index is a function
 
 if __name__=='__main__':
+    create_table()
     app.run(debug=True)
