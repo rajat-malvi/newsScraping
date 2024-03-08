@@ -260,8 +260,8 @@ def portal():
             conn.close()
 
         return render_template('News.html',dictmain=dictmain,pera=pera,name=name)
-    except Exception as e:
-        return render_template('News.html',dictmain=dictmain,name=name,pera=pera)
+    except:
+        return render_template('News.html',dictmain=dictmain,pera=pera)
 
 
 # Github login route
