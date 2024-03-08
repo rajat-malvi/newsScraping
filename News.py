@@ -36,16 +36,25 @@ github = oauth.register(
 
 
 # backend (psycopg2)
-def connect_to_db():
-    conn=psycopg2.connect(
-        host='dpg-cnkv8s821fec73d6aejg-a',  database='dhp2024_4yqq', user='rajat_1234', password='xhsP7q41ZCnxoLioVprbOeKx0SfAiCMQ')
-    return conn
+# def connect_to_db():
+#     conn=psycopg2.connect(
+#         host='dpg-cnkv8s821fec73d6aejg-a',  database='dhp2024_4yqq', user='rajat_1234', password='xhsP7q41ZCnxoLioVprbOeKx0SfAiCMQ')
+#     return conn
 
-def creat_table():
-    conn=connect_to_db()
-    cursor = conn.cursor()
+db_params = {
+    'dbname':'dhp2024_4yqq',
+    'user':'rajat_1234',
+    'password':'xhsP7q41ZCnxoLioVprbOeKx0SfAiCMQ',
+    'host':'dpg-cnkv8s821fec73d6aejg-a',
+    'port':5432
+}
 
-    cursor.execute("""
+def create_table():
+    conn = psycopg2.connect(**db_params)
+    cur = conn.cursor()
+    # cursor = conn.cursor()
+
+    curr.execute("""
             create table if not exists news(
                 name varchar(1000),
                 nowords varchar(100),
@@ -58,8 +67,10 @@ def creat_table():
             )
         """)
     conn.commit()
+    cur.close()
+    conn.close()
+    
 creat_table()
-
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -192,8 +203,10 @@ def textCleaner(s):
 @app.route("/",methods=('GET','POST'))
 def portal():
     # connection
-    conn=connect_to_db()
-    cur=conn.cursor()
+    # conn=connect_to_db()
+    # cur=conn.cursor()
+    conn = psycopg2.connect(**db_params)
+    cur = conn.cursor()
     try:
         sentence='0'
         words='0'
@@ -242,8 +255,10 @@ def portal():
             dictmain['articleTag']=articleTag
             dictmain['authername']=authename
             # backend save
+            # conn.close()
+            cur.close()
             conn.close()
-   
+
         return render_template('News.html',dictmain=dictmain,pera=pera,name=name)
     except Exception as e:
         return render_template('News.html',dictmain=dictmain,name=name,pera=pera)
