@@ -35,10 +35,24 @@ github = oauth.register(
 )
 
 # backend (psycopg2)
+# def connect_to_db():
+#     conn=psycopg2.connect(
+#         host='dpg-cnlhmc0l6cac73ef0vmg-a',  database='dhp2024_44yk', user='dhp2024_44yk', password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC')
+#     return conn
+
 def connect_to_db():
-    conn=psycopg2.connect(
-        host='dpg-cnlhmc0l6cac73ef0vmg-a',  database='dhp2024_44yk', user='dhp2024_44yk', password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC')
-    return conn
+    try:
+        conn=psycopg2.connect(
+            host='dpg-cnlhmc0l6cac73ef0vmg-a',
+            database='dhp2024_44yk',
+            user='dhp2024_44yk',
+            password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC'
+        )
+        return conn
+    except psycopg2.Error as e:
+        print(f"Error connecting to database: {e}")
+        raise
+
 
 # db_params = {
 #     'dbname':'dhp2024_44yk',
