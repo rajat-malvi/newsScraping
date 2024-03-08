@@ -40,21 +40,22 @@ def connect_to_db():
         host='dpg-cnlhmc0l6cac73ef0vmg-a',  database='dhp2024_44yk', user='dhp2024_44yk', password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC')
     return conn
 
-db_params = {
-    'dbname':'dhp2024_44yk',
-    'user':'dhp2024_44yk',
-    'password':'hYblUsnTd53xOGdkVu0d70jAP5LR1SBC',
-    'host':'dpg-cnlhmc0l6cac73ef0vmg-a',
-    'port':5432
-}
+# db_params = {
+#     'dbname':'dhp2024_44yk',
+#     'user':'dhp2024_44yk',
+#     'password':'hYblUsnTd53xOGdkVu0d70jAP5LR1SBC',
+#     'host':'dpg-cnlhmc0l6cac73ef0vmg-a',
+#     'port':5432
+# }
 
 
 def create_table():
-    conn = psycopg2.connect(**db_params)
+    # conn = psycopg2.connect(**db_params)
+    conn=connect_to_db()
     cur = conn.cursor()
     # cursor = conn.cursor()
     cur.execute("""
-            create table if not exists news(
+            create table if not exists newsdb(
                 name varchar(1000),
                 nowords varchar(100),
                 nosentence varchar(100),
@@ -228,7 +229,7 @@ def portal():
                 heading=new_dict['headline']
                 authename=new_dict['authorName']
                 # store in data base
-                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['articleTags'],pera,new_dict['authorName'],link))
+                cur.execute('insert into newsdb(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['articleTags'],pera,new_dict['authorName'],link))
                 conn.commit()
                 
             elif option=='toi':
@@ -239,7 +240,7 @@ def portal():
                 articleTag=articleTags(new_dict['keywords'])
                 authename=new_dict['author']['name']
                 # store in data base
-                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['keywords'],pera,authename,link))
+                cur.execute('insert into newsdb(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['keywords'],pera,authename,link))
                 conn.commit()
 
             # four tag
