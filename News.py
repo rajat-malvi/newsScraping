@@ -41,22 +41,25 @@ def connect_to_db():
         host='dpg-cnkv8s821fec73d6aejg-a',  database='dhp2024_4yqq', user='rajat_1234', password='xhsP7q41ZCnxoLioVprbOeKx0SfAiCMQ')
     return conn
 
-conn=connect_to_db()
-cursor = conn.cursor()
+def creat_table():
+    conn=connect_to_db()
+    cursor = conn.cursor()
 
-cursor.execute("""
-        create table if not exists news(
-            name varchar(1000),
-            nowords varchar(100),
-            nosentence varchar(100),
-            nopostag varchar(1000),
-            articlekey varchar(10000),
-            pera varchar(10000000),
-            author varchar(500),
-            link varchar(10000) not null
-        )
-    """)
-conn.commit()
+    cursor.execute("""
+            create table if not exists news(
+                name varchar(1000),
+                nowords varchar(100),
+                nosentence varchar(100),
+                nopostag varchar(1000),
+                articlekey varchar(10000),
+                pera varchar(10000000),
+                author varchar(500),
+                link varchar(10000) not null
+            )
+        """)
+    conn.commit()
+creat_table()
+
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
