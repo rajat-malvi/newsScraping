@@ -17,7 +17,7 @@ app=Flask(__name__,static_folder='data')
 # oAuth acount
 oauth = OAuth(app)
 # oautherized id
-app.config['SECRET_KEY'] = "THIS SHOULD BE SECRET"
+app.config['SECRET_KEY'] = "This_secret"
 app.config['GITHUB_CLIENT_ID'] = "992ca9ab81fae0231b83"
 app.config['GITHUB_CLIENT_SECRET'] = "a0c7e13b2dfdb91e32c700563eed8420f6594e2b"
 github_admin_usernames = [ "atmabodha","rajat-malvi"]
@@ -35,16 +35,16 @@ github = oauth.register(
 )
 
 # backend (psycopg2)
-# def connect_to_db():
-#     conn=psycopg2.connect(
-#         host='dpg-cnkv8s821fec73d6aejg-a',  database='dhp2024_4yqq', user='rajat_1234', password='xhsP7q41ZCnxoLioVprbOeKx0SfAiCMQ')
-#     return conn
+def connect_to_db():
+    conn=psycopg2.connect(
+        host='dpg-cnlhmc0l6cac73ef0vmg-a',  database='dhp2024_44yk', user='dhp2024_44yk', password='hYblUsnTd53xOGdkVu0d70jAP5LR1SBC')
+    return conn
 
 db_params = {
-    'dbname':'dhp2024_qq2m',
-    'user':'dhp2024_qq2m_user',
-    'password':'egPPgJVYusSnXZJVpaoF8vPTu0Tof4tA',
-    'host':'dpg-cnlf91o21fec73c5a82g-a',
+    'dbname':'dhp2024_44yk',
+    'user':'dhp2024_44yk',
+    'password':'hYblUsnTd53xOGdkVu0d70jAP5LR1SBC',
+    'host':'dpg-cnlhmc0l6cac73ef0vmg-a',
     'port':5432
 }
 
@@ -53,7 +53,6 @@ def create_table():
     conn = psycopg2.connect(**db_params)
     cur = conn.cursor()
     # cursor = conn.cursor()
-
     cur.execute("""
             create table if not exists news(
                 name varchar(1000),
@@ -202,7 +201,7 @@ def portal():
     # connection
     # conn=connect_to_db()
     # cur=conn.cursor()
-    conn = psycopg2.connect(**db_params)
+    conn = connect_to_db()
     cur = conn.cursor()
     try:
         sentence='0'
