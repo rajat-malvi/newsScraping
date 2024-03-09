@@ -60,7 +60,7 @@ def create_table():
             )
         """)
     conn.commit()
-create_table()
+# create_table()
 
 
 
@@ -288,4 +288,5 @@ def github_logout():
     return redirect(url_for('portal'))       # here index is a function
 
 if __name__=='__main__':
+    create_table()
     app.run(debug=True)
