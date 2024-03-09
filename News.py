@@ -11,7 +11,7 @@ import re
 from bs4 import BeautifulSoup
 from authlib.integrations.flask_client import OAuth
 
-app=Flask(__name__,static_folder='data')
+app=Flask(__name__,static_folder='static')
 
 # oAuth acount
 oauth = OAuth(app)
