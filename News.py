@@ -13,7 +13,7 @@ from authlib.integrations.flask_client import OAuth                             
 nltk.download('all')
 
 # Here instence made  
-app=Flask(__name__,static_folder='data')
+app=Flask(__name__,static_folder='static')
 # DATABASE_URL="postgres://dhp2024_44yk_user:hYblUsnTd53xOGdkVu0d70jAP5LR1SBC@dpg-cnlhmc0l6cac73ef0vmg-a.oregon-postgres.render.com/dhp2024_44yk"
 oauth = OAuth(app)
 # DATABASE_URL = os.getenv('DATABASE_URL')
