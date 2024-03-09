@@ -244,11 +244,12 @@ def portal():
             dictmain['articleTag']=articleTag
             dictmain['authername']=authename
             # backend save
+            cur.close()
             conn.close()
    
         return render_template('News.html',dictmain=dictmain,pera=pera,name=name)
     except Exception as e:
-        return render_template('News.html',dictmain=dictmain,name=name)
+        return render_template('News.html',dictmain=dictmain,pera=pera,name=name)
 
 
 # Github login route
