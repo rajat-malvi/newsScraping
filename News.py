@@ -1,23 +1,20 @@
 from flask import Flask, render_template, url_for, redirect, session,request       # It make a flask environment using some function 
 import psycopg2                                                                    # For postgres sql data base 
 from nltk import *                                                                 # Hepl to analyse the text 
-import nltk
+import nltk                                                                         
 from nltk.sentiment.vader import SentimentIntensityAnalyzer                        # Sentiment analysis using vander class 
 import json                                                                        # It help to manipulate json 
-import requests              
-import re 
-import os
-# Regular expression operations
+import requests                                                                    # Import the requests library for making HTTP requests
+import re                                                                          # Regular expression operations
 from bs4 import BeautifulSoup                                                      # It screpe news from website   
 from authlib.integrations.flask_client import OAuth                                # OAuth integration for Flask
-nltk.download('all')
 
 # Here instence made  
 app=Flask(__name__,static_folder='static')
-# DATABASE_URL="postgres://dhp2024_44yk_user:hYblUsnTd53xOGdkVu0d70jAP5LR1SBC@dpg-cnlhmc0l6cac73ef0vmg-a.oregon-postgres.render.com/dhp2024_44yk"
+# oAuth instence is create 
 oauth = OAuth(app)
-# DATABASE_URL = os.getenv('DATABASE_URL')
 
+# github reqired pass key
 app.config['SECRET_KEY'] = "THIS SHOULD BE SECRET"
 app.config['GITHUB_CLIENT_ID'] = "992ca9ab81fae0231b83"
 app.config['GITHUB_CLIENT_SECRET'] = "a0c7e13b2dfdb91e32c700563eed8420f6594e2b"
@@ -47,7 +44,7 @@ def connect_to_db():
 def create_table():
     conn=connect_to_db()
     cursor = conn.cursor()
-    
+    # using Postgress sql it create a table news
     cursor.execute("""
             create table if not exists news(
                 name varchar(1000),
@@ -61,15 +58,12 @@ def create_table():
             )
         """)
     conn.commit()
-    
-create_table()    
-
+        
 # ---------------------------------------------------------------------------------------------------------------------------------------
-
 
 # bs4 code 
 def getsoup(s):
-    '''it provide soup(main )'''
+    '''it provide soup(main metadata)'''
     URL=f'{s}'
     page=requests.get(URL)
     soup=BeautifulSoup(page.content,"html.parser")
@@ -83,6 +77,7 @@ def reax(s):
 
 # www.thehindu.com
 def thd(s):
+    '''It returns article by doing some cleanig on article '''
     soup=getsoup(s)
     # for purely pera
     artical = soup.find('div', class_='articlebodycontent') # hear crticle accese 
@@ -101,7 +96,7 @@ def thd(s):
 
 
 def thddict(l):
-    '''The Hindu dict it return some important detail that extrect from the article  '''
+    '''The Hindu dict it return some important detail that extrect from the article '''
     soup=getsoup(l)
     string=soup.script.get_text().strip()
     dict1=json.loads(string[55:-2].replace('\n',"").replace('// when available',"").replace("'",'"'))
@@ -110,7 +105,7 @@ def thddict(l):
 
 # TOI
 def toi(s):
-    # It return a json in which contain all meta data
+    '''It return a json in which contain all meta data of The Times of india'''
     soup=getsoup(s)
     scriptlist=soup.find_all('script')    
     dict1=json.loads(scriptlist[-2].get_text())
@@ -135,17 +130,17 @@ def word_func(s):
     return count
 
 def upos1(s):
-    # it tell about noun, verb,adjective etc.
     '''this function return a dict in  '''
+    # it tell about noun, verb,adjective etc.
     words=word_tokenize(s)
     lst = nltk.pos_tag(words,tagset='universal') # in this list we have tuple that indicate word is verb, noun or somthing else
     dict1={}
     for i in lst:
         if i[1] not in dict1:
-            dict1[i[1]]=1
+            dict1[i[1]]=1   
         else:
             dict1[i[1]]+=1
-    # hear it convert dict to string format
+    # here it convert dict to string format by using dumps class of json
     dict1=json.dumps(dict1)
     return dict1
 
@@ -153,18 +148,12 @@ def upos1(s):
 
 # other stuff
 def classify_sentiment(text):
-  """
-  Analyzes the sentiment of a paragraph and returns "positive", "negative", or "neutral".
-
-  Args:
-      text: A string containing a paragraph of text.
-
-  Returns:
-      A string: "positive", "negative", or "neutral", indicating the sentiment of the text.
-  """
-  # Use VADER sentiment analyzer
+  """Analyzes the sentiment of a paragraph and returns True , False , or "neutral"."""
+  # Use VADER sentiment analyzer 
+  # Create a SentimentIntensityAnalyzer object for sentences analysis
   analyzer = SentimentIntensityAnalyzer()
-  # scores is a dict   
+  # scores is a dict in which the words are st
+  # it return a dict like this {'neg': 0.003, 'neu': 0.899, 'pos': 0.098, 'compound': 0.9908}
   scores = analyzer.polarity_scores(text)
   # Determine sentiment based on compound score
   if scores['compound'] > 0.05:
@@ -177,6 +166,7 @@ def classify_sentiment(text):
 
 # split the string
 def articleTags(s):
+    '''this function is return a list of words'''
     if '|' in s:
         lst=s.split('|') 
     elif ',' in s:
@@ -185,46 +175,50 @@ def articleTags(s):
 
 # text cleaner 
 def textCleaner(s):
-    new=re.sub(r'[0-9]+',' ',s)
-    res = re.sub(r'([a-z])([A-Z])', r'\1 \2', new)
-    res=re.sub(r'[^\w\s]','',res)
-    res=re.sub(r'\s+',' ',res)
+    '''It is the one of the most claning part for the news The Times of India it gives clean article by using Regular expression '''
+    new=re.sub(r'[0-9]+',' ',s)     # Here substitue function replace the unknown numbers with a space 
+    res = re.sub(r'([a-z])([A-Z])', r'\1 \2', new)      # Add a space between a lowercase letter followed by an uppercase letter
+    res=re.sub(r'[^\w\s]','',res)   # It removes wide-space and alphnumeric words like '123abc' and replace with  
+    res=re.sub(r'\s+',' ',res)      # It Replace multiple whitespace characters with a single space
     return res
 
-
-@app.route("/",methods=('GET','POST'))
+# main portal 
+@app.route("/",methods=('GET','POST'))a
 def portal():
+    '''main function for webapp that render all information on the webpage'''
     # connection
     conn=connect_to_db()
     cur=conn.cursor()
+    
     try:
-        sentence='0'
-        words='0'
-        upos=''
+        # here I decleare variable th
         link=''
         pera=''
         heading='Today Headline'
         articleTag=''
-        istrue='neutral'
+        istrue=''
         option=''
         name=''
         authename='Writer'
         dictmain={}
         
         if request.method=="POST":
-            option=request.form.get('news')
-            name=request.form.get('user')                
-            if option=='The_Hindu':
-                link=request.form['link']
+            # get info from user login form 
+            option=request.form.get('news') 
+            name=request.form.get('user')   
+            # It works when user select option The Hindu 
+            if option=='The_Hindu':     
+                link=request.form['link']   
                 pera=thd(link)
                 new_dict=thddict(link)
                 articleTag=articleTags(new_dict['articleTags'])
                 heading=new_dict['headline']
                 authename=new_dict['authorName']
-                # store in data base
+                # store in data-base 
                 cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['articleTags'],pera,new_dict['authorName'],link))
                 conn.commit()
-                
+            
+            # It works when user select The Times of India 
             elif option=='toi':
                 link=request.form['link']
                 new_dict=toi(link)
@@ -236,7 +230,7 @@ def portal():
                 cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['keywords'],pera,authename,link))
                 conn.commit()
 
-            # four tag
+            # here it collect all the data in the json formate that render on the main portal. 
             dictmain['sentence']=sentence_func(pera)
             dictmain['words']=word_func(pera)
             dictmain['upos']=upos1(pera)
@@ -244,10 +238,11 @@ def portal():
             dictmain['heading']=heading
             dictmain['articleTag']=articleTag
             dictmain['authername']=authename
-            # backend save
+            
+            # backend coonection close
             conn.close()
-   
-        return render_template('News.html',dictmain=dictmain,pera=pera,name=name)
+            
+        return render_template('News.html',dictmain=dictmain,pera=pera,name=name)   # using render templet it return all the data 
     except Exception as e:
         return render_template('News.html',dictmain=dictmain,name=name)
 
@@ -255,37 +250,44 @@ def portal():
 # Github login route
 @app.route('/login/github')
 def github_login():
-    github = oauth.create_client('github')
-    redirect_uri = url_for('github_authorize', _external=True)
-    return github.authorize_redirect(redirect_uri)
+    '''Route for initiating GitHub OAuth login'''
+    github = oauth.create_client('github')  # Create a GitHub OAuth client
+    redirect_uri = url_for('github_authorize', _external=True)  # It Generate the redirect URI for authorization
+    return github.authorize_redirect(redirect_uri)  # Redirect the user to GitHub for authorization
 
 # Github authorize route
 @app.route('/login/github/authorize')
 def github_authorize():
-    conn=connect_to_db()
-    cur=conn.cursor()
+    '''Route for handling GitHub OAuth authorization'''
+    # main function for github that check if the user is admin the it redirect to history page 
+    # It take connection 
+    conn = connect_to_db()  
+    cur = conn.cursor()  
+    
     try:
-        github = oauth.create_client('github')
-        token = github.authorize_access_token()
-        session['github_token'] = token
-        resp = github.get('user').json()
-        print(f"\n{resp}\n")
-        logged_in_username = resp.get('login')
-        if logged_in_username in github_admin_usernames:
-            cur.execute('select * from news')
-            data=cur.fetchall()
-            conn.close()
-            return render_template("Searchhistory.html",lst=data)
+        github = oauth.create_client('github')  # Create a GitHub OAuth client
+        token = github.authorize_access_token()  # Get the access token from the authorization response
+        session['github_token'] = token  # Store the access token in the session
+        resp = github.get('user').json()  # Get the user's information from GitHub
+        # print(f"\n{resp}\n")
+        logged_in_username = resp.get('login')  # Get the username from the user's information
+        if logged_in_username in github_admin_usernames:  # Check if the username is in the list of admin usernames
+            cur.execute('select * from news')  
+            data = cur.fetchall()  # Fetch all rows from the 'news' table
+            conn.close()  
+            return render_template("Searchhistory.html", lst=data)
         else:
-            return render_template("News.html",dictmain={})
+            return render_template("News.html", dictmain={})  
     except:
-        return render_template("News.html",dictmain={})
+        return render_template("News.html", dictmain={}) 
 
 # Logout route for GitHub
 @app.route('/logout/github')
 def github_logout():
-    session.pop('github_token', None)
-    return redirect(url_for('portal'))       # here index is a function
+    '''Route for logging out from GitHub OAuth'''
+    session.pop('github_token', None)  # Remove the access token from the session
+    return redirect(url_for('portal'))  # Redirect the user to the main page
 
 if __name__=='__main__':
+    create_table()  # here it call the create_table function 
     app.run(debug=True)
