@@ -183,7 +183,7 @@ def textCleaner(s):
     return res
 
 # main portal 
-@app.route("/",methods=('GET','POST'))a
+@app.route("/",methods=('GET','POST'))
 def portal():
     '''main function for webapp that render all information on the webpage'''
     # connection
