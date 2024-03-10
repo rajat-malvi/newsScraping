@@ -8,7 +8,7 @@ import requests                                                                 
 import re                                                                          # Regular expression operations
 from bs4 import BeautifulSoup                                                      # It screpe news from website   
 from authlib.integrations.flask_client import OAuth                                # OAuth integration for Flask
-
+nltk.download('all')
 # Here instence made  
 app=Flask(__name__,static_folder='static')
 # oAuth instence is create 
