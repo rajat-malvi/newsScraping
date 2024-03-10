@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 *{
     margin: 0px;
     padding: 0px;
@@ -14,18 +14,10 @@ a{
     text-decoration: none;
     color: black;
 }
-/* .main{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    width: 100vw;
-    height: 100vh;
-} */
+
 /* nav-bar */
 .box1{
-    height: 100px;
+    height: 80px;
     width: 100%;
     /* background-color: rgba(242, 92, 167, 0.688); */
     background-color: rgb(141 100 255);
@@ -36,6 +28,7 @@ a{
     /* backdrop-filter: blur(10px); */
     /* -webkit-backdrop-filter: blur(25px); */
 }
+
 .box2{
     display: flex;
     align-items: center;
@@ -50,14 +43,16 @@ a{
     top: 0;
     padding: 20px;
 }
+
 .logo{
     font-size: 1.5rem;
     text-shadow: 3px 1px 5px #e5dada
 }
+
 #user_name{
-    background-color: white;
-    color: black;
-    border: 2px solid red;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid white;
     border-radius: 20px;
     padding: 5px 5px;
     outline: none;
@@ -67,6 +62,7 @@ a{
     width: max-content;
     text-align: center;
 }
+
 .nav ul{
     display: flex;
     align-items: center;
@@ -79,6 +75,7 @@ a{
     font-size: 1.2rem;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
 .nav ul a{
     color: #fff;
 }
@@ -89,6 +86,7 @@ a{
     flex-direction: row;
     justify-content: space-between;
 }
+
 /* left box */
 .container-l{
     height: 80vh;
@@ -98,6 +96,7 @@ a{
     justify-content: center;
     flex-direction: column;
 }
+
 /* login-page */
 .user{
     display: flex;
@@ -105,16 +104,11 @@ a{
     flex-direction: column;
     border: 2px solid #c2c2c2;
     height: 400px;
-    width: 400px;
+    width: 350px;
     max-width: max-content;
     max-height: max-content;
     padding: 10px;
     border-radius: 10px;
-    
-    /* glass effect */
-    /* background-color: #ffffff05;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(25px); */
 }
 .user h2{
     text-align: center;
@@ -124,7 +118,6 @@ a{
     /* align-items: center; */
     /* justify-content: center; */
     flex-direction: column;
-    /* background-color: #0099ff; */
 }
 .user form input{
     border: none;
@@ -171,7 +164,7 @@ a{
 .container-r{
     height: 80vh;
     width: 70%;
-    border: 10px solid #c2c2c2;
+    border: 10px solid black;
     padding: 20px;
     margin: 10px auto;
 }
@@ -181,7 +174,8 @@ a{
     font-size: 1.3rem;
     padding: 5px 10px;
     text-align: center;
-    background-color: #aaaaaab1;
+    /* background-color: #aaaaaab1; */
+    background-color: black;
 }
 .bar-2{
     display: flex;
@@ -194,9 +188,8 @@ a{
 /* componet of bar-2 */
 .card{
     margin: 20px auto 0px;
-    border: 0.1px solid #c2c2c2;
-    width: 30%;
-    height: 85%;
+    width: 330px;
+    height: 400px;
     overflow: hidden;
     padding: 10px 30px;
 }
@@ -298,7 +291,7 @@ a{
 }
 
 /* footer */
-.fotter{
+/* .fotter{
     margin-top: 20px;
     height: 50px;
     width: 100%;
@@ -308,4 +301,132 @@ a{
     display: flex;
     align-items: center;
     justify-content: center;
+} */
+/* Footer container */
+/* Footer container */
+.container.my-5 {
+    max-width: 100%;
+    margin: 10 auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+  
+  /* Social media section */
+  footer .social-media {
+    background-color: #1c2331;
+    color: white;
+    padding: 20px 0;
+  }
+  
+  /* Social media icons */
+  footer .social-media a {
+    color: white;
+    margin-right: 15px;
+  }
+  
+  /* Company name section */
+  footer .company-name {
+    background-color: rgb(141 100 255);
+    color: #f2f2f2;
+    padding: 20px 0;
+  } 
+  
+.me-4{
+    font-size: 1.3rem;
+    letter-spacing: 10px;
+}
+.me-4:hover{
+    color: #fff;
+}
+
+.p-3{
+    padding: 3px 0px;
+    text-align: center;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pera-f{
+    width: 50%;
+    padding-left:10px;
+}
+
+.section-1{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    padding: 5px;
+    height: 50px;
+}
+.section-2{
+    height: 200px;
+    padding:10px;
+    display: flex;
+    align-items:flex-start;
+}
+
+
+/* media query */
+@media screen and (max-width: 425px){
+    /* Your CSS styles for this resolution */
+    /* Add more styles as needed */
+    body{
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .box3{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .container-r{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: max-content;
+        width: 100%;
+        padding: 10px;
+        margin: 10px auto;
+    }
+    .card{
+        border: 0.1px solid #c2c2c2;
+    }
+    #home{
+        display: none;
+    }
+
+    .fa-facebook-f,
+    .fa-google,
+    .fa-instagram{
+        display: none;
+    }
+    .pera-f{
+        width: 100%;
+        height: max-content;
+        padding: 5px;
+    }
+    .p-3{
+        padding: 3px;
+        text-align: center;
+        height: max-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    footer{
+        height: max-content;
+        width: 100%;
+    }
 }
