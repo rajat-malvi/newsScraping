@@ -15,7 +15,7 @@ app=Flask(__name__,static_folder='static')
 oauth = OAuth(app)
 
 # github reqired pass key
-app.config['SECRET_KEY'] = "THIS SHOULD BE SECRET"
+app.config['SECRET_KEY'] = "Rajat"
 app.config['GITHUB_CLIENT_ID'] = "992ca9ab81fae0231b83"
 app.config['GITHUB_CLIENT_SECRET'] = "a0c7e13b2dfdb91e32c700563eed8420f6594e2b"
 github_admin_usernames = [ "atmabodha","rajat-malvi"]
@@ -63,7 +63,7 @@ def create_table():
 
 # bs4 code 
 def getsoup(s):
-    '''it provide soup(main metadata)'''
+    '''It provide soup(main metadata)'''
     URL=f'{s}'
     page=requests.get(URL)
     soup=BeautifulSoup(page.content,"html.parser")
@@ -179,7 +179,7 @@ def textCleaner(s):
     new=re.sub(r'[0-9]+',' ',s)     # Here substitue function replace the unknown numbers with a space 
     res = re.sub(r'([a-z])([A-Z])', r'\1 \2', new)      # Add a space between a lowercase letter followed by an uppercase letter
     res=re.sub(r'[^\w\s]','',res)   # It removes wide-space and alphnumeric words like '123abc' and replace with  
-    res=re.sub(r'\s+',' ',res)      # It Replace multiple whitespace characters with a single space
+    res=re.sub(r'\s+',' ',res)      # It Replace multiple whide-space characters with a single space
     return res
 
 # main portal 
@@ -191,7 +191,7 @@ def portal():
     cur=conn.cursor()
     
     try:
-        # here I decleare variable th
+        # here I decleare variable 
         link=''
         pera=''
         heading='Today Headline'
@@ -215,7 +215,7 @@ def portal():
                 heading=new_dict['headline']
                 authename=new_dict['authorName']
                 # store in data-base 
-                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['articleTags'],pera,new_dict['authorName'],link))
+                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),authename,pera,new_dict['authorName'],link))
                 conn.commit()
             
             # It works when user select The Times of India 
