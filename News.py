@@ -214,7 +214,7 @@ def portal():
                 articleTag=articleTags(new_dict['articleTags'])
                 heading=new_dict['headline']
                 authename=new_dict['authorName']
-                dictmain['sentence']=sentence_func(pera)
+                
                 # store in data-base 
                 cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,authename,link))
                 conn.commit()
@@ -227,12 +227,12 @@ def portal():
                 heading=new_dict['headline']
                 articleTag=articleTags(new_dict['keywords'])
                 authename=new_dict['author']['name']
-                dictmain['sentence']=sentence_func(new_dict['articleBody'])
                 # store in data base
-                cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['keywords'],pera,authename,link))
+                cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,authename,link))
                 conn.commit()
 
             # here it collect all the data in the json formate that render on the main portal. 
+            dictmain['sentence']=sentence_func(pera)
             dictmain['words']=word_func(pera)
             dictmain['upos']=upos1(pera)
             dictmain['istrue']=classify_sentiment(pera)
