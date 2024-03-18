@@ -8,7 +8,10 @@ import requests                                                                 
 import re                                                                          # Regular expression operations
 from bs4 import BeautifulSoup                                                      # It screpe news from website   
 from authlib.integrations.flask_client import OAuth                                # OAuth integration for Flask
-nltk.download('all')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('universal_tagset')
 # Here instence made  
 app=Flask(__name__,static_folder='static')
 # oAuth instence is create 
@@ -46,7 +49,7 @@ def create_table():
     cursor = conn.cursor()
     # using Postgress sql it create a table news
     cursor.execute("""
-            create table if not exists news_data(
+            create table if not exists news(
                 name varchar(1000),
                 nowords varchar(100),
                 nosentence varchar(100),
@@ -58,7 +61,8 @@ def create_table():
             )
         """)
     conn.commit()
-        
+    
+create_table()
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
 # bs4 code 
@@ -216,7 +220,7 @@ def portal():
                 authename=new_dict['authorName']
                 
                 # store in data-base 
-                cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,authename,link))
+                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,authename,link))
                 conn.commit()
             
             # It works when user select The Times of India 
@@ -228,7 +232,7 @@ def portal():
                 articleTag=articleTags(new_dict['keywords'])
                 authename=new_dict['author']['name']
                 # store in data base
-                cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,authename,link))
+                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,authename,link))
                 conn.commit()
 
             # here it collect all the data in the json formate that render on the main portal. 
@@ -273,7 +277,7 @@ def github_authorize():
         # print(f"\n{resp}\n")
         logged_in_username = resp.get('login')  # Get the username from the user's information
         if logged_in_username in github_admin_usernames:  # Check if the username is in the list of admin usernames
-            cur.execute('select * from news_data')  
+            cur.execute('select * from news')  
             data = cur.fetchall()  # Fetch all rows from the 'news' table
             conn.close()  
             return render_template("Searchhistory.html", lst=data)
