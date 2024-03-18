@@ -46,7 +46,7 @@ def create_table():
     cursor = conn.cursor()
     # using Postgress sql it create a table news
     cursor.execute("""
-            create table if not exists news(
+            create table if not exists news_data(
                 name varchar(1000),
                 nowords varchar(100),
                 nosentence varchar(100),
@@ -216,7 +216,7 @@ def portal():
                 authename=new_dict['authorName']
                 dictmain['sentence']=sentence_func(pera)
                 # store in data-base 
-                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,new_dict['authorName'],link))
+                cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,new_dict['authorName'],link))
                 conn.commit()
             
             # It works when user select The Times of India 
@@ -229,7 +229,7 @@ def portal():
                 authename=new_dict['author']['name']
                 dictmain['sentence']=sentence_func(new_dict['articleBody'])
                 # store in data base
-                cur.execute('insert into news(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['keywords'],pera,authename,link))
+                cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),new_dict['keywords'],pera,authename,link))
                 conn.commit()
 
             # here it collect all the data in the json formate that render on the main portal. 
