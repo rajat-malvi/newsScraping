@@ -216,7 +216,7 @@ def portal():
                 authename=new_dict['authorName']
                 dictmain['sentence']=sentence_func(pera)
                 # store in data-base 
-                cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,new_dict['authorName'],link))
+                cur.execute('insert into news_data(name,nowords,nosentence,nopostag,articlekey,pera,author,link) values(%s,%s,%s,%s,%s,%s,%s,%s)',(name,word_func(pera),sentence_func(pera),upos1(pera),articleTag,pera,authename,link))
                 conn.commit()
             
             # It works when user select The Times of India 
@@ -233,7 +233,6 @@ def portal():
                 conn.commit()
 
             # here it collect all the data in the json formate that render on the main portal. 
-            # dictmain['sentence']=sentence_func(pera)
             dictmain['words']=word_func(pera)
             dictmain['upos']=upos1(pera)
             dictmain['istrue']=classify_sentiment(pera)
